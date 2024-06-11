@@ -1,0 +1,332 @@
+*       *********************************************************
+*       *                                                         
+*       * 27/02/09            MENUCONTA.MPR             09:40:32  
+*       *                                                         
+*       *********************************************************
+*       *                                                         
+*       * Nombre del autor                                        
+*       *                                                         
+*       * Copyright (C) 2009 Nombre de la organización            
+*       * Dirección                                               
+*       * Ciudad,     Código pos                                  
+*       * País                                              
+*       *                                                         
+*       * Descripción:                                            
+*       * Este programa se generó automáticamente por GENMENU.    
+*       *                                                         
+*       *********************************************************
+
+
+*       *********************************************************
+*       *                                                         
+*       *                    Definición de menú                   
+*       *                                                         
+*       *********************************************************
+*
+
+SET SYSMENU TO
+SET SYSMENU AUTOMATIC
+
+DEFINE PAD _2ld0kql3y OF _MSYSMENU PROMPT "\<Asientos" COLOR SCHEME 3 ;
+	KEY ALT+A, ""
+DEFINE PAD _2ld0kql3z OF _MSYSMENU PROMPT "\<Tablas" COLOR SCHEME 3 ;
+	KEY ALT+T, ""
+DEFINE PAD _2ld0kql40 OF _MSYSMENU PROMPT "\<Listados" COLOR SCHEME 3 ;
+	KEY ALT+L, ""
+DEFINE PAD _2ld0kql41 OF _MSYSMENU PROMPT "\<Mantenimiento" COLOR SCHEME 3 ;
+	KEY ALT+M, "" ;
+	SKIP FOR !EMPTY(WONTOP())
+DEFINE PAD _2ld0kql42 OF _MSYSMENU PROMPT "A\<yuda" COLOR SCHEME 3 ;
+	KEY ALT+Y, "" ;
+	SKIP FOR !EMPTY(WONTOP())
+ON PAD _2ld0kql3y OF _MSYSMENU ACTIVATE POPUP asientos
+ON PAD _2ld0kql3z OF _MSYSMENU ACTIVATE POPUP tablas
+ON PAD _2ld0kql40 OF _MSYSMENU ACTIVATE POPUP listados
+ON PAD _2ld0kql41 OF _MSYSMENU ACTIVATE POPUP mantenimie
+ON PAD _2ld0kql42 OF _MSYSMENU ACTIVATE POPUP ayuda
+
+DEFINE POPUP asientos MARGIN RELATIVE SHADOW COLOR SCHEME 4
+DEFINE BAR 1 OF asientos PROMPT "\<Asientos Diarios" ;
+	SKIP FOR WEXIST("frmAsientos")
+DEFINE BAR 2 OF asientos PROMPT "\<Importar Otros Asientos" ;
+	SKIP FOR WEXIST("frmAsientos")
+DEFINE BAR 3 OF asientos PROMPT "\<Contraasentar Asientos" ;
+	SKIP FOR WEXIST("frmAsientos")
+DEFINE BAR 4 OF asientos PROMPT "Ajuste por \<tenencia moneda extranjera" ;
+	SKIP FOR WEXIST("frmAsientos")
+DEFINE BAR 5 OF asientos PROMPT "Ajuste por Inflacion" ;
+	SKIP FOR WEXIST("frmAsientos")
+DEFINE BAR 6 OF asientos PROMPT "Asientos de \<Refundicion" ;
+	SKIP FOR WEXIST("frmRefundicion")
+ON SELECTION BAR 1 OF asientos DO FORM contaAsientos
+ON SELECTION BAR 2 OF asientos DO FORM contaAsientosImportar
+ON SELECTION BAR 3 OF asientos DO FORM contaAsientosContrasentar
+ON SELECTION BAR 4 OF asientos DO FORM contaAsientosAjusteMoneda
+ON SELECTION BAR 5 OF asientos DO FORM contaAsientosAjusteInflacion
+ON SELECTION BAR 6 OF asientos DO FORM contaAsientosRefundicion
+
+DEFINE POPUP tablas MARGIN RELATIVE SHADOW COLOR SCHEME 4
+DEFINE BAR 1 OF tablas PROMPT "\<Plan de Cuentas" ;
+	SKIP FOR WEXIST("frmPlanCuentas") ;
+	MESSAGE "Definicion de Plan  de Cuenta"
+DEFINE BAR 2 OF tablas PROMPT "Plan de Cuentas \<Modelos" ;
+	SKIP FOR WEXIST("frmPlanModelo") ;
+	MESSAGE "Definicion de Asientos Modelos"
+DEFINE BAR 3 OF tablas PROMPT "\<Informe de Tesoreria" ;
+	SKIP FOR WEXIST("frmTesoreria") ;
+	MESSAGE "Defincion de Cuentas a Incluir en el Informe de Tesoría"
+DEFINE BAR 4 OF tablas PROMPT "\<Tabla de Ajuste por Inflacion" ;
+	SKIP FOR WEXIST("frmAjusteInflacion")
+DEFINE BAR 5 OF tablas PROMPT "\<Centros de Costos" ;
+	SKIP FOR WEXIST("frmCentroCostos")
+ON SELECTION BAR 1 OF tablas DO FORM contaPlanCuenta
+ON SELECTION BAR 2 OF tablas DO FORM contaPlanModelo
+ON SELECTION BAR 3 OF tablas DO FORM contaTesoreria
+ON SELECTION BAR 4 OF tablas DO FORM contaIndicesAPI
+ON SELECTION BAR 5 OF tablas DO FORM contaCentroCostos
+
+DEFINE POPUP listados MARGIN RELATIVE SHADOW COLOR SCHEME 4
+DEFINE BAR 1 OF listados PROMPT "\<Plan de Cuentas"
+DEFINE BAR 2 OF listados PROMPT "C\<entros de Costos"
+DEFINE BAR 3 OF listados PROMPT "Pla\<n de Cuenta Modelo"
+DEFINE BAR 4 OF listados PROMPT "\<Cuentas con Saldos"
+DEFINE BAR 5 OF listados PROMPT "\<Tabla de Ajuste por Inflacion"
+DEFINE BAR 6 OF listados PROMPT "\-"
+DEFINE BAR 7 OF listados PROMPT "\<Minuta Diaria"
+DEFINE BAR 8 OF listados PROMPT "\<Informe de Tesoreria"
+DEFINE BAR 9 OF listados PROMPT "\<Asientos Diarios"
+DEFINE BAR 10 OF listados PROMPT "Mo\<vimientos por Cuenta"
+DEFINE BAR 11 OF listados PROMPT "Libro Ma\<yor"
+DEFINE BAR 12 OF listados PROMPT "Libro Mayor por \<Rangos"
+DEFINE BAR 13 OF listados PROMPT "Libro \<Diario Contable"
+DEFINE BAR 14 OF listados PROMPT "\-"
+DEFINE BAR 15 OF listados PROMPT "\<Balance Mensual"
+DEFINE BAR 16 OF listados PROMPT "Balance de S\<umas y Saldos"
+DEFINE BAR 17 OF listados PROMPT "Ba\<lance de Sumas y Saldos Acumulado"
+ON SELECTION BAR 1 OF listados DO FORM conta_PlanCuenta
+ON SELECTION BAR 2 OF listados DO FORM conta_CentroCostos
+ON SELECTION BAR 3 OF listados DO FORM conta_PlanModelo
+ON SELECTION BAR 4 OF listados DO FORM conta_SaldosCuentas
+ON SELECTION BAR 5 OF listados DO FORM conta_AjusteInflacion
+ON SELECTION BAR 7 OF listados DO FORM conta_Minuta
+ON SELECTION BAR 8 OF listados DO FORM conta_Tesoreria
+ON SELECTION BAR 9 OF listados DO FORM conta_Asientos
+ON SELECTION BAR 10 OF listados DO FORM conta_MovCuenta
+ON SELECTION BAR 11 OF listados DO FORM conta_Mayor
+ON SELECTION BAR 12 OF listados DO FORM conta_MayorRangos
+ON SELECTION BAR 13 OF listados DO FORM conta_Diario
+ON SELECTION BAR 15 OF listados DO FORM conta_Balance
+ON SELECTION BAR 16 OF listados DO FORM conta_SumasSaldos
+ON SELECTION BAR 17 OF listados DO FORM conta_SumSdoAcum
+
+DEFINE POPUP mantenimie MARGIN RELATIVE SHADOW COLOR SCHEME 4
+DEFINE BAR 1 OF mantenimie PROMPT "\<Datos del Sistema"
+DEFINE BAR 2 OF mantenimie PROMPT "Definir \<Formato del Plan de Cuetas"
+DEFINE BAR 3 OF mantenimie PROMPT "\-"
+DEFINE BAR 4 OF mantenimie PROMPT "\<Recalcular Saldos de Cuentas"
+DEFINE BAR 5 OF mantenimie PROMPT "\<Borrar Asientos"
+DEFINE BAR 6 OF mantenimie PROMPT "Ordenar \<Numero de Asientos por Fechas"
+DEFINE BAR 7 OF mantenimie PROMPT "\<Ordenar Asientos por Fecha"
+DEFINE BAR 8 OF mantenimie PROMPT "\-"
+DEFINE BAR 9 OF mantenimie PROMPT "\<Generar Indices de Tablas"
+DEFINE BAR 10 OF mantenimie PROMPT "\<Arraglar Tablas Dañadas (error Nro.15)"
+DEFINE BAR 11 OF mantenimie PROMPT "\<Crear Bases de Datos en Blanco"
+DEFINE BAR 12 OF mantenimie PROMPT "Recuperar \<Informacion de Ultima Copia"
+ON SELECTION BAR 1 OF mantenimie DO FORM basesEntidad
+ON SELECTION BAR 2 OF mantenimie DO FORM contaFormato
+ON SELECTION BAR 4 OF mantenimie DO FORM contaRecalculoSaldos
+ON SELECTION BAR 5 OF mantenimie DO FORM contaAsientosBorrar
+ON SELECTION BAR 6 OF mantenimie DO FORM contaOrdenarAsientos
+ON SELECTION BAR 7 OF mantenimie ;
+	DO _2ld0kql43 ;
+	IN LOCFILE("CONTABILIDAD\MENUS\MENUCONTA" ,"MPX;MPR|FXP;PRG" ,"DÓNDE está MENUCONTA?")
+ON SELECTION BAR 9 OF mantenimie ;
+	DO _2ld0kql46 ;
+	IN LOCFILE("CONTABILIDAD\MENUS\MENUCONTA" ,"MPX;MPR|FXP;PRG" ,"DÓNDE está MENUCONTA?")
+ON SELECTION BAR 10 OF mantenimie ;
+	DO _2ld0kql47 ;
+	IN LOCFILE("CONTABILIDAD\MENUS\MENUCONTA" ,"MPX;MPR|FXP;PRG" ,"DÓNDE está MENUCONTA?")
+ON SELECTION BAR 11 OF mantenimie ;
+	DO _2ld0kql48 ;
+	IN LOCFILE("CONTABILIDAD\MENUS\MENUCONTA" ,"MPX;MPR|FXP;PRG" ,"DÓNDE está MENUCONTA?")
+ON SELECTION BAR 12 OF mantenimie ;
+	DO _2ld0kql49 ;
+	IN LOCFILE("CONTABILIDAD\MENUS\MENUCONTA" ,"MPX;MPR|FXP;PRG" ,"DÓNDE está MENUCONTA?")
+
+DEFINE POPUP ayuda MARGIN RELATIVE SHADOW COLOR SCHEME 4
+DEFINE BAR 1 OF ayuda PROMPT "\<Salir del Programa"
+DEFINE BAR 2 OF ayuda PROMPT "\-"
+DEFINE BAR 3 OF ayuda PROMPT "\<Informacion del Sistema"
+DEFINE BAR 4 OF ayuda PROMPT "\<Acerca de ..."
+ON SELECTION BAR 1 OF ayuda oApp.CerrarAplicacion
+ON SELECTION BAR 3 OF ayuda ;
+	DO _2ld0kql4a ;
+	IN LOCFILE("CONTABILIDAD\MENUS\MENUCONTA" ,"MPX;MPR|FXP;PRG" ,"DÓNDE está MENUCONTA?")
+ON SELECTION BAR 4 OF ayuda ;
+	DO _2ld0kql4b ;
+	IN LOCFILE("CONTABILIDAD\MENUS\MENUCONTA" ,"MPX;MPR|FXP;PRG" ,"DÓNDE está MENUCONTA?")
+
+
+*       *********************************************************
+*       *                                                         
+*       * _2LD0KQL43  ON SELECTION BAR 7 OF POPUP mantenimie      
+*       *                                                         
+*       * Procedure Origin:                                       
+*       *                                                         
+*       * From Menu:  MENUCONTA.MPR,            Record:   47      
+*       * Called By:  ON SELECTION BAR 7 OF POPUP mantenimie      
+*       * Prompt:     Ordenar Asientos por Fecha                  
+*       * Snippet:    1                                           
+*       *                                                         
+*       *********************************************************
+*
+PROCEDURE _2ld0kql43
+IF MESSAGEBOX("Este procedimiento puede demorar varios minutos esta seguro de seguir",4+32+256,"Atencion")=6
+	WAIT WINDOWS "Aguardar un Momento" NOWAIT
+	USE asientos EXCLUSIVE
+	SORT ON codigo,fecha,asiento TO asientosord
+	ZAP
+	APPEND FROM asientosord
+	CLOS TABLE ALL
+	WAIT CLEAR
+	MESSAGEBOX("Proceso terminado",48,"Listo")
+ENDIF
+
+
+
+*       *********************************************************
+*       *                                                         
+*       * _2LD0KQL46  ON SELECTION BAR 9 OF POPUP mantenimie      
+*       *                                                         
+*       * Procedure Origin:                                       
+*       *                                                         
+*       * From Menu:  MENUCONTA.MPR,            Record:   49      
+*       * Called By:  ON SELECTION BAR 9 OF POPUP mantenimie      
+*       * Prompt:     Generar Indices de Tablas                   
+*       * Snippet:    2                                           
+*       *                                                         
+*       *********************************************************
+*
+PROCEDURE _2ld0kql46
+oReindexar=CREATEOBJ("frmReindexar")
+oReindexar.Show
+RELEASE oReindexar
+
+
+*       *********************************************************
+*       *                                                         
+*       * _2LD0KQL47  ON SELECTION BAR 10 OF POPUP mantenimie     
+*       *                                                         
+*       * Procedure Origin:                                       
+*       *                                                         
+*       * From Menu:  MENUCONTA.MPR,            Record:   50      
+*       * Called By:  ON SELECTION BAR 10 OF POPUP mantenimie     
+*       * Prompt:     Arraglar Tablas Dañadas (error Nro.15)      
+*       * Snippet:    3                                           
+*       *                                                         
+*       *********************************************************
+*
+PROCEDURE _2ld0kql47
+oNotDBase=CREATEOBJ("NotdBase")
+oNotDBase.Show
+RELEASE oNotDBase
+
+
+
+*       *********************************************************
+*       *                                                         
+*       * _2LD0KQL48  ON SELECTION BAR 11 OF POPUP mantenimie     
+*       *                                                         
+*       * Procedure Origin:                                       
+*       *                                                         
+*       * From Menu:  MENUCONTA.MPR,            Record:   51      
+*       * Called By:  ON SELECTION BAR 11 OF POPUP mantenimie     
+*       * Prompt:     Crear Bases de Datos en Blanco              
+*       * Snippet:    4                                           
+*       *                                                         
+*       *********************************************************
+*
+PROCEDURE _2ld0kql48
+dDesde=date()
+dHasta=date()
+dFecha=date()
+SET STRICTDATE TO 0
+oGen=CREATEOBJECT("frmGenMAAS")
+oGen.Show
+RETURN
+
+
+DEFINE CLASS frmGenMAAS AS frmGenDBC
+
+   PROCEDURE Generar
+		CD DATA
+		CLOSE TABLES ALL
+		CLOSE DATABASES ALL
+		SET EXCLUSIVE ON
+
+		DO dbcContabilidad
+		CLOSE TABLES ALL
+		CLOSE DATABASES ALL
+
+		CD..
+		Thisform.Release
+		CLEAR EVENTS
+   ENDPROC
+ENDDEFINE
+
+
+
+*       *********************************************************
+*       *                                                         
+*       * _2LD0KQL49  ON SELECTION BAR 12 OF POPUP mantenimie     
+*       *                                                         
+*       * Procedure Origin:                                       
+*       *                                                         
+*       * From Menu:  MENUCONTA.MPR,            Record:   52      
+*       * Called By:  ON SELECTION BAR 12 OF POPUP mantenimie     
+*       * Prompt:     Recuperar Informacion de Ultima Copia       
+*       * Snippet:    5                                           
+*       *                                                         
+*       *********************************************************
+*
+PROCEDURE _2ld0kql49
+oCopia=CREATEOBJECT("frmRecuperarCopia")
+oCopia.Show
+
+
+
+*       *********************************************************
+*       *                                                         
+*       * _2LD0KQL4A  ON SELECTION BAR 3 OF POPUP ayuda           
+*       *                                                         
+*       * Procedure Origin:                                       
+*       *                                                         
+*       * From Menu:  MENUCONTA.MPR,            Record:   58      
+*       * Called By:  ON SELECTION BAR 3 OF POPUP ayuda           
+*       * Prompt:     Informacion del Sistema                     
+*       * Snippet:    6                                           
+*       *                                                         
+*       *********************************************************
+*
+PROCEDURE _2ld0kql4a
+oInfo=CREATEOBJECT("informacion")
+oInfo.Show
+
+
+
+*       *********************************************************
+*       *                                                         
+*       * _2LD0KQL4B  ON SELECTION BAR 4 OF POPUP ayuda           
+*       *                                                         
+*       * Procedure Origin:                                       
+*       *                                                         
+*       * From Menu:  MENUCONTA.MPR,            Record:   59      
+*       * Called By:  ON SELECTION BAR 4 OF POPUP ayuda           
+*       * Prompt:     Acerca de ...                               
+*       * Snippet:    7                                           
+*       *                                                         
+*       *********************************************************
+*
+PROCEDURE _2ld0kql4b
+oAcerca=CREATEOBJECT("acercade")
+oAcerca.Show
